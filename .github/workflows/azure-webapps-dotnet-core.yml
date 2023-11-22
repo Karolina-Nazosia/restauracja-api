@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on:  windows-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -24,13 +24,13 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore .//RestauracjaAPI.sln
+        run: dotnet restore ./RestauracjaAPI.sln
 
       - name: Build
-        run: dotnet build ./RestauracjaApi.sln -- cofiguration Release --no-restore
+        run: dotnet build ./RestauracjaAPI.sln -- cofiguration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./RestauracjaApi.sln --- cofiguration Release --no-build
+        run: dotnet publish ./RestauracjaAPI.sln --- cofiguration Release --no-build
 
    #   - name: Upload artifact for deployment job
     #    uses: actions/upload-artifact@v3
