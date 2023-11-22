@@ -1,39 +1,57 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy .Net app to App Service azure
+name: Build and deploy ASP.Net Core app to Azure Web App - restauracjaapitest
 
-env:
-  AZURE_WEBAPP_NAME: restauracjaapitest    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: './published'      # set this to the path to your web app project, defaults to the repository root
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
-   
+
 jobs:
   build:
-    runs-on:  windows-latest
+    runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '7.x'
+          include-prerelease: true
 
-      - name: Install dependencies
-        run: dotnet restore
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
-      - name: Build
-        run: dotnet build --no-restore -c Release
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Publish
-        run: dotnet publish --no-build -c Release -o ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Deploy to Azure WebApp
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+      
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
+          app-name: 'restauracjaapitest'
+          slot-name: 'production'
+          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_92FC39F40E2A43F29216A44AB0D6F520 }}
