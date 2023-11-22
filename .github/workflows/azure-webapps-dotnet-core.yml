@@ -24,7 +24,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore .//RestauracjaApi.sln
+        run: dotnet restore .//RestauracjaAPI.sln
 
       - name: Build
         run: dotnet build ./RestauracjaApi.sln -- cofiguration Release --no-restore
