@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - restauracjaapitest
+name: Build and deploy ASP.Net Core app to Azure Web App - restaurantProjectApi
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'restauracjaapitest'
+          app-name: 'restaurantProjectApi'
           slot-name: 'production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_92FC39F40E2A43F29216A44AB0D6F520 }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_566be5dd8a7a4de3ae71207da741e8c6 }}
