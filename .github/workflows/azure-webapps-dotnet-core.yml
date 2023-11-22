@@ -23,11 +23,8 @@ jobs:
         with:
           dotnet-version: 7.0.x
 
-      - name: Restore
-        run: dotnet restore ./RestauracjaAPI.sln
-
       - name: Build
-        run: dotnet build ./RestauracjaAPI.sln -- cofiguration Release --no-restore
+        run: dotnet build ./RestauracjaAPI.sln -- cofiguration Release
 
       - name: Publish
         run: dotnet publish ./RestauracjaAPI.sln --- cofiguration Release --no-build
