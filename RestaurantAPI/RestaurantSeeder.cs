@@ -41,11 +41,6 @@ namespace RestaurantAPI
                     _dbContext.Restaurants.AddRange(restaurants);
                     _dbContext.SaveChanges();
                 }
-                if (!_dbContext.Users.Any())
-                {
-                    var user = GetUsers();
-                    _accountService.RegisterUser(user.ElementAt(0));
-                }
             }
         }
 
@@ -118,23 +113,6 @@ namespace RestaurantAPI
                         PostalCode = "30-001"
                     }
                 }
-            };
-
-            return restaurants;
-        }
-
-        private IEnumerable<RegisterUserDto> GetUsers()
-        {
-            var restaurants = new List<RegisterUserDto>()
-            {
-                new RegisterUserDto()
-                {
-                   Email = "i7Vf&UQj@i7Vf&UQj",
-                   Password = "i7Vf&UQj",
-                   ConfirmPassword = "i7Vf&UQj",
-                   Nationality = "string",
-                   DateOfBirth = DateTime.Now,
-                },
             };
 
             return restaurants;
